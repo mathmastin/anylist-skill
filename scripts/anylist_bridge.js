@@ -71,32 +71,34 @@ async function createRecipe(al) {
     process.exit(1);
   }
 
-  // Build the recipe object for AnyList API
-  const recipe = al.createRecipe({
-    name: recipeData.name,
-    ingredients: recipeData.ingredients, // Array of {rawIngredient, name, quantity, note}
-    preparationSteps: recipeData.preparation_steps || recipeData.steps || [],
-    servings: recipeData.servings || null,
-    prepTime: recipeData.prep_time_minutes ? recipeData.prep_time_minutes * 60 : null,
-    cookTime: recipeData.cook_time_minutes ? recipeData.cook_time_minutes * 60 : null,
-    note: recipeData.notes || null,
-    rating: recipeData.rating || null,
-    sourceUrl: recipeData.source_url || null,
-    sourceName: recipeData.source_name || null,
-    nutritionalInfo: recipeData.nutritional_info || null,
-    scaleFactor: recipeData.scale_factor || 1,
-    creationTimestamp: Date.now() / 1000,
-    timestamp: Date.now() / 1000,
-  });
+  try {
+    // Build the recipe object for AnyList API
+    const recipe = await al.createRecipe({
+      name: recipeData.name,
+      ingredients: recipeData.ingredients, // Array of {rawIngredient, name, quantity, note}
+      preparationSteps: recipeData.preparation_steps || recipeData.steps || [],
+      servings: recipeData.servings || null,
+      prepTime: recipeData.prep_time_minutes ? recipeData.prep_time_minutes * 60 : null,
+      cookTime: recipeData.cook_time_minutes ? recipeData.cook_time_minutes * 60 : null,
+      note: recipeData.notes || null,
+      rating: recipeData.rating || null,
+      sourceUrl: recipeData.source_url || null,
+      sourceName: recipeData.source_name || null,
+      nutritionalInfo: recipeData.nutritional_info || null,
+      scaleFactor: recipeData.scale_factor || 1,
+      creationTimestamp: Date.now() / 1000,
+      timestamp: Date.now() / 1000,
+    });
 
-  // Save the recipe
-  await recipe.save();
-
-  process.stdout.write(JSON.stringify({
-    status: 'success',
-    recipe_name: recipe.name,
-    recipe_identifier: recipe.identifier,
-  }));
+    process.stdout.write(JSON.stringify({
+      status: 'success',
+      recipe_name: recipe.name,
+      recipe_identifier: recipe.identifier,
+    }));
+  } catch (e) {
+    process.stderr.write(JSON.stringify({ error: e.message }));
+    process.exit(1);
+  }
 }
 
 async function main() {
