@@ -180,8 +180,11 @@ AnyList will display it without quantity/unit info.
   (typos, trailing whitespace). List the user's known list names if unsure, or ask.
 - **Credentials in plain env vars** — same trust model as the original app. Don't log
   or echo `ANYLIST_PASSWORD` in terminal output.
-- **⚠️ CREATE-RECIPE LIMITATION (v0.8.6)** — The `create-recipe` command returns a success
-  message but recipes do NOT persist to your AnyList account. This is a known limitation
-  in the underlying `anylist` npm package (v0.8.6) where the user ID is not properly passed
-  to the recipe creation API. **Workaround:** Create recipes directly in the AnyList app
-  instead. This limitation may be resolved in future package updates.
+- **Forked `anylist` package** — the npm `anylist@0.8.6` has a persistence bug where
+  recipe save/delete operations succeed silently but don't actually persist
+  (upstream issue kevdliu/anylist#59). This skill uses a patched fork at
+  `github:mathmastin/anylist#hermes-patched-0.8.6` (tagged) via package.json.
+  The patch fixes: uid extraction from JWT `sub` claim, proper `recipeDataId`
+  propagation in `getRecipes()` (sets it before constructing Recipe objects so
+  fetched recipes can be deleted), payload shape matching current AnyList web client
+  (no `recipeIds` on operations, timestamp+recipeDataId on remove).

@@ -1,9 +1,9 @@
 {
   "name": "hermes-anylist-bridge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Node.js bridge for AnyList API access, used by the Hermes anylist skill",
   "dependencies": {
-    "anylist": "^0.8.6"
+    "anylist": "github:mathmastin/anylist#hermes-patched-0.8.6"
   }
 }
