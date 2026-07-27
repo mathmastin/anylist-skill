@@ -90,6 +90,9 @@ async function createRecipe(al) {
       timestamp: Date.now() / 1000,
     });
 
+    // Persist the recipe to AnyList
+    await recipe.save();
+
     process.stdout.write(JSON.stringify({
       status: 'success',
       recipe_name: recipe.name,

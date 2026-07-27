@@ -180,3 +180,8 @@ AnyList will display it without quantity/unit info.
   (typos, trailing whitespace). List the user's known list names if unsure, or ask.
 - **Credentials in plain env vars** — same trust model as the original app. Don't log
   or echo `ANYLIST_PASSWORD` in terminal output.
+- **⚠️ CREATE-RECIPE LIMITATION (v0.8.6)** — The `create-recipe` command returns a success
+  message but recipes do NOT persist to your AnyList account. This is a known limitation
+  in the underlying `anylist` npm package (v0.8.6) where the user ID is not properly passed
+  to the recipe creation API. **Workaround:** Create recipes directly in the AnyList app
+  instead. This limitation may be resolved in future package updates.
